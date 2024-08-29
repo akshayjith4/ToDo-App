@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>{{ title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+    body {
+  background-color: #FAF3E0; /* Almond background color */
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  margin-top: 30px;
+}
+
+.card {
+  border-radius: 10px; /* Square border radius */
+  border: 1px solid #ddd;
+  background-color: #fff;
+  margin-bottom: 20px;
+}
+
+.card-header {
+  background-color: #001f3f; /* Navy color for the card header */
+  color: white;
+  padding: 10px;
+  border-radius: 10px 10px 0 0; /* Consistent square border radius */
+  font-size: 1.25rem;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.submit_form {
+  background-color: #fff;
+  padding: 30px; /* Increased padding for a larger form area */
+  border-radius: 10px; /* Square border radius */
+  border: 2px solid #28a745; /* Green border */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  width: 110%; /* Full width to ensure the form spans the container width */
+  max-width: 1200px; /* Further increased max-width for a much wider form container */
+  margin-left: auto; /* Centers the form horizontally */
+  margin-right: auto;
+}
+
+.form-control {
+  width: 100%; /* Ensures the input takes up the full width of its parent container */
+  max-width: 100%; /* Ensure the input box stretches to fill its container */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  padding: 15px; /* Increased padding for a larger input area */
+  margin-bottom: 15px;
+  min-height: 50px; /* Sets a minimum height for the textarea/input */
+}
+
+.submit-button {
+  background-color: #28a745; /* Green color for the submit button */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 100%; /* Full width to match the input fields */
+}
+
+.submit-button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+.alert-info {
+  background-color: #FFE5B4; /* Mango color for alert */
+  color: #333;
+  border-color: #FFD700;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.row {
+  margin-top: 20px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+hr {
+  border-top: 2px solid #001f3f; /* Navy color for horizontal line */
+}
+
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info">
+      <strong>{{ message }}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <div class="text-center">
+      <h1>TODO LIST</h1>
+      <hr />
+    </div>
+
+    <div class="row">
+      <div class="col-md-8">
+        {% for i in list %}
+        <div class="card">
+          <div class="card-header">
+            <center><b>{{ i.title }}</b></center>
+          </div>
+          <div class="card-body">
+            <p>{{ i.date }}</p>
+            <p>{{ i.details }}</p>
+            <form action="/del/{{ i.id }}" method="POST" class="remove-form">
+              {% csrf_token %}
+              <button value="remove" type="submit" class="btn btn-danger">
+                <span class="glyphicon glyphicon-trash"></span> &nbsp; Remove
+              </button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="col-md-4">
+        <div class="submit_form">
+          <form method="POST">
+            {% csrf_token %}
+            {{ forms }}
+            <div class="text-center mt-3">
+              <input type="submit" value="Submit" class="submit-button" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
